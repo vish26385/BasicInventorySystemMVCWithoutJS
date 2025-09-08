@@ -1,0 +1,9 @@
+﻿<h2>Purchase</h2>
+
+<form method="post" asp-controller="Purchase" asp-action="Purchase">
+    @Html.Partial("_PurchaseFormPartial")
+
+    @Html.Partial("_PurchaseListPartial")
+</form>
+
+@Html.Partial("_PurchaseDataListPartial")

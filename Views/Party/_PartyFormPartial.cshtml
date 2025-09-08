@@ -1,0 +1,33 @@
+﻿@model ALLINONEPROJECTWITHOUTJS.Controllers.PartyMasterViewModel
+
+<div>
+    <input type="hidden" name="PartyMaster.Id" value="@Model.PartyMaster?.Id" />
+    <input autofocus type="text" placeholder="Party Name" name="PartyMaster.Name" value="@Model.PartyMaster?.Name" required />
+    <select name="PartyMaster.Type">     
+        <option value="">-- Select Type --</option>
+        @if (Model.PartyMaster?.Type == "Customer")
+        {
+            <option value="Customer" selected>Customer</option>
+        }
+        else
+        {
+            <option value="Customer">Customer</option>
+        }
+        @if (Model.PartyMaster?.Type == "Customer")
+        {
+            <option value="Supplier" selected>Supplier</option>
+        }
+        else
+        {
+            <option value="Supplier">Supplier</option>
+        }
+    </select>
+    @if (Model.PartyMaster != null && Model.PartyMaster.Id > 0)
+    {
+        <button type="submit" formaction="/Party/UpdateParty">Update</button>
+    }
+    else
+    {
+        <button type="submit" formaction="/Party/SaveParty">Save</button>
+    }
+</div>
