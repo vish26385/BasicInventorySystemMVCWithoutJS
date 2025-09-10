@@ -1,26 +1,62 @@
-﻿<h2>Cart Items</h2>
-<table>
-    <thead>
-    <th>Item Name</th>
-    <th>Price</th>
-    <th>Actions</th>
-    </thead>
-    <tbody>
-        @if (Model != null && Model.Count > 0)
-        {
-            @foreach (var item in Model)
+﻿ @model List<ALLINONEPROJECTWITHOUTJS.Models.ItemMaster> 
+
+<div class="container my-4">
+    <div class="card shadow-lg border-0 rounded-4">
+        <div class="card-header bg-gradient bg-primary text-white rounded-top-4">
+            <h3 class="mb-0"><i class="bi bi-cart-fill"></i> Cart Items</h3>
+        </div>
+        <div class="card-body p-4">
+            @if (Model != null && Model.Count > 0)
             {
-                <tr>
-                    <td><input type="text" readonly value="@item.Name" /></td>
-                    <td><input type="number" readonly value="@item.Price" /></td>
-                    <td>
-                        <form method="post" action="/Cart/RemoveFromCart">
-                            <input type="hidden" name="Id" value="@item.Id" />
-                            <button type="submit">Remove From Cart</button>
-                        </form>
-                    </td>
-                </tr>
+                <div class="table-responsive">
+                    <table class="table table-hover table-bordered align-middle shadow-sm">
+                        <thead class="table-primary text-center">
+                            <tr>
+                                <th>Item Name</th>
+                                <th>Price</th>
+                                <th style="width: 150px;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td class="fw-semibold">@item.Name</td>
+                                    <td>₹@item.Price</td>
+                                    <td class="text-center">
+                                        <form method="post" action="/Cart/RemoveFromCart" onsubmit="return confirm('Remove this item from cart?');">
+                                            <input type="hidden" name="Id" value="@item.Id" />
+                                            <button type="submit" class="btn btn-sm btn-danger shadow-sm">
+                                                <i class="bi bi-trash"></i> Remove
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            }
+
+                            <!-- Summary Row -->
+                            <tr class="table-light fw-bold">
+                                <td class="text-end">Total:</td>
+                                <td colspan="2">
+                                    ₹@Model.Sum(x => x.Price)
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             }
-        }        
-    </tbody>
-</table>
+            else
+            {
+                <div class="alert alert-info text-center shadow-sm">
+                    <i class="bi bi-info-circle"></i> Your cart is empty.
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<style>
+    .bg-gradient {
+        background: linear-gradient(90deg, #36d1dc, #5b86e5) !important;
+    }
+</style>

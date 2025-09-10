@@ -1,34 +1,49 @@
 ﻿@model ALLINONEPROJECTWITHOUTJS.Controllers.PartyMasterViewModel
 
-<table>
-    <thead>
-    <th>Party Name</th>
-    <th>Actions</th>
-    <th></th>
-    </thead>
-    <tbody>
-        @if (Model != null)
-        {
-            //@foreach (var item in Model)
-            @for (int i = 0; i < (Model.partyMasters?.Count ?? 0); i++)
+<div class="table-responsive">
+    <table class="table table-hover table-bordered align-middle shadow-sm">
+        <thead class="table-success text-center">
+            <tr>
+                <th>Party Name</th>
+                <th style="width: 200px;">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.partyMasters?.Count > 0)
+            {
+                @for (int i = 0; i < Model.partyMasters.Count; i++)
+                {
+                    <tr>
+                        <td class="fw-semibold">@Model.partyMasters[i].Name</td>
+                        <td class="text-center">
+                            <div class="d-flex justify-content-center gap-2">
+
+                                <!-- Edit -->
+                                <form method="post" action="/Party/EditParty">
+                                    <input type="hidden" name="PartyMaster.Id" value="@Model.partyMasters[i].Id" />
+                                    <button type="submit" class="btn btn-sm btn-warning shadow-sm">
+                                        <i class="bi bi-pencil-square"></i> Edit
+                                    </button>
+                                </form>
+
+                                <!-- Delete -->
+                                <form method="post" action="/Party/DeleteParty" onsubmit="return confirm('Are you sure you want to delete this party?');">
+                                    <input type="hidden" name="Id" value="@Model.partyMasters[i].Id" />
+                                    <button type="submit" class="btn btn-sm btn-danger shadow-sm">
+                                        <i class="bi bi-trash"></i> Delete
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            }
+            else
             {
                 <tr>
-                    <input type="hidden" name="PartyMaster.Id" value=@Model.partyMasters[i].Id />
-                    <td><input type="text" readonly name="PartyMaster.Name" value="@Model.partyMasters[i].Name" /></td>
-                    <td>
-                        <form method="post" action="/Party/EditParty">
-                            <input type="hidden" name="PartyMaster.Id" value=@Model.partyMasters[i].Id />
-                            <button type="submit" style="width:100px;">Edit</button>
-                        </form>
-                    </td>
-                    <td>
-                        <form method="post" action="/Party/DeleteParty">
-                            <input type="hidden" name="Id" value=@Model.partyMasters[i].Id />
-                            <button type="submit">Delete</button>
-                        </form>
-                    </td>
+                    <td colspan="2" class="text-center text-muted">No parties found.</td>
                 </tr>
             }
-        }
-    </tbody>
-</table>
+        </tbody>
+    </table>
+</div>

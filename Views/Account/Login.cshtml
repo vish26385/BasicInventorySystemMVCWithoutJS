@@ -1,18 +1,60 @@
 ﻿@model ALLINONEPROJECTWITHOUTJS.DTOs.LoginRequest
-<h2>Login</h2>
-@* @if (ViewBag.Message != null)
-{
-    <div style="color:red; font-weight:bold;">@ViewBag.Message</div>
-} *@
-<form method="post" action="/Account/Login">
-    <table>
-        <tr><td><label>Username</label></td></tr>
-        <tr><td><input type="text" style="width:100%;" required name="UserName" placeholder="Enter Username" /></td></tr>
-        <tr><td><label>Password</label></td></tr>
-        <tr><td><input type="password" style="width:100%;" required name="Password" placeholder="Enter Password" /></td></tr>
-        <tr><td style="text-align:right"><a href="/Account/ForgotPassword">Forgot Password?</a></td></tr>
-        <tr><td><button type="submit" style="width:100%;">Login</button></td></tr>
-        <tr><td><label>Not a member?</label><a href="/Account/Register">Sign up now</a></td></tr>
-    </table>
-    <p>@ViewBag.Message</p>
-</form>
+
+<div class="d-flex align-items-center justify-content-center vh-100 bg-light">
+    <div class="card shadow-lg border-0 rounded-4" style="max-width: 420px; width: 100%;">
+        <div class="card-header bg-gradient bg-primary text-white text-center rounded-top-4">
+            <h3 class="mb-0"><i class="bi bi-person-circle"></i> Login</h3>
+        </div>
+        <div class="card-body p-4">
+            @if (ViewBag.Message != null)
+            {
+                <div class="alert alert-danger shadow-sm">
+                    <i class="bi bi-exclamation-triangle"></i> @ViewBag.Message
+                </div>
+            }
+
+            <form method="post" action="/Account/Login" class="row g-3">
+                <!-- Username -->
+                <div class="col-12">
+                    <label class="form-label fw-semibold"><i class="bi bi-person"></i> Username</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-light"><i class="bi bi-person-fill"></i></span>
+                        <input type="text" class="form-control shadow-sm" name="UserName" placeholder="Enter username" required />
+                    </div>
+                </div>
+
+                <!-- Password -->
+                <div class="col-12">
+                    <label class="form-label fw-semibold"><i class="bi bi-lock"></i> Password</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-light"><i class="bi bi-key-fill"></i></span>
+                        <input type="password" class="form-control shadow-sm" name="Password" placeholder="Enter password" required />
+                    </div>
+                </div>
+
+                <!-- Forgot Password -->
+                <div class="col-12 text-end">
+                    <a href="/Account/ForgotPassword" class="text-decoration-none">Forgot Password?</a>
+                </div>
+
+                <!-- Login Button -->
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary w-100 shadow-sm">
+                        <i class="bi bi-box-arrow-in-right"></i> Login
+                    </button>
+                </div>
+
+                <!-- Register Link -->
+                <div class="col-12 text-center mt-2">
+                    <span>Not a member? </span><a href="/Account/Register" class="fw-semibold">Sign up now</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+    .bg-gradient {
+        background: linear-gradient(90deg, #4facfe, #00f2fe) !important;
+    }
+</style>

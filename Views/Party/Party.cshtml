@@ -1,9 +1,35 @@
 ﻿@model ALLINONEPROJECTWITHOUTJS.Controllers.PartyMasterViewModel
 
-<h2>Parties</h2>
-<form method="post">
-    @Html.Partial("_PartyFormPartial")
-    <hr />
-</form>
-<p>@ViewBag.Message</p>
-@Html.Partial("_PartyListPartial")
+<div class="container my-4">
+    <div class="card shadow-lg border-0 rounded-4">
+        <div class="card-header bg-gradient bg-success text-white rounded-top-4">
+            <h3 class="mb-0"><i class="bi bi-people-fill"></i> Party Master</h3>
+        </div>
+        <div class="card-body p-4">
+
+            <!-- Party Form -->
+            <form method="post" class="mb-4">
+                @Html.Partial("_PartyFormPartial")
+            </form>
+
+            <!-- Message -->
+            @if (!string.IsNullOrEmpty(ViewBag.Message as string))
+            {
+                <div class="alert alert-info shadow-sm">
+                    <i class="bi bi-info-circle"></i> @ViewBag.Message
+                </div>
+            }
+
+            <!-- Party List -->
+            <div class="mt-4">
+                @Html.Partial("_PartyListPartial")
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .bg-gradient {
+        background: linear-gradient(90deg, #56ab2f, #a8e063) !important;
+    }
+</style>
