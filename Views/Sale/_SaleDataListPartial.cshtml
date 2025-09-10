@@ -1,44 +1,68 @@
 ﻿@model ALLINONEPROJECTWITHOUTJS.DTOs.SaleViewModel
 
-<table class="table">
-    <thead>
-    <th>Code</th>
-    <th>Date</th>
-    <th>Qty</th>
-    <th>Amount</th>
-    <th>Due Date</th>
-    <th>Party</th>
-    <th>Actions</th>
-    <th></th>
-    </thead>
-    <tbody>
-        @if (Model != null)
-        {
-            @for (int i = 0; i < (Model.salesLists.Count); i++)
+<div class="table-responsive">
+    <table class="table table-bordered table-hover align-middle text-center">
+        <thead class="table-light">
+            <tr>
+                <th>Code</th>
+                <th>Date</th>
+                <th>Qty</th>
+                <th>Amount</th>
+                <th>Due Date</th>
+                <th>Party</th>
+                <th colspan="2">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.salesLists != null)
             {
-                var totalQty = Model.salesLists[i].salesDetails?.Sum(d => d.Qty) ?? 0;
-                var totalAmount = Model.salesLists[i].salesDetails?.Sum(d => d.Qty * d.ItemMaster.Price) ?? 0;
-                <tr>
-                    <td><input type="number" readonly value="@Model.salesLists[i].Id" /></td>
-                    <td><input type="text" readonly value="@Model.salesLists[i].SaleDate.ToString("yyyy-MM-dd")" /></td>
-                    <td><input type="text" readonly value="@totalQty" /></td>
-                    <td><input type="text" readonly value="@totalAmount" /></td>
-                    <td><input type="text" readonly value="@Model.salesLists[i].DueDate.ToString("yyyy-MM-dd")" /></td>
-                    <td><input type="text" readonly value="@Model.salesLists[i].PartyMaster.Name" /></td>
-                    <td>
-                        <form method="post" action="/Sale/EditSale">
-                            <input type="hidden" name="id" readonly value="@Model.salesLists[i].Id" />
-                            <button type="submit" style="width:100%;">Edit</button>
-                        </form>
-                    </td>
-                    <td>
-                        <form method="post" action="/Sale/DeleteSale">
-                            <input type="hidden" name="id" readonly value="@Model.salesLists[i].Id" />
-                            <button type="submit">Delete</button>
-                        </form>
-                    </td>
-                </tr>
+                @for (int i = 0; i < Model.salesLists.Count; i++)
+                {
+                    var totalQty = Model.salesLists[i].salesDetails?.Sum(d => d.Qty) ?? 0;
+                    var totalAmount = Model.salesLists[i].salesDetails?.Sum(d => d.Qty * d.ItemMaster.Price) ?? 0;
+                    <tr>
+                        <!-- Code -->
+                        <td>
+                            <span class="badge bg-secondary">@Model.salesLists[i].Id</span>
+                        </td>
+
+                        <!-- Date -->
+                        <td>@Model.salesLists[i].SaleDate.ToString("yyyy-MM-dd")</td>
+
+                        <!-- Qty -->
+                        <td class="text-end fw-semibold">@totalQty</td>
+
+                        <!-- Amount -->
+                        <td class="text-end fw-bold text-success">@totalAmount.ToString("N2")</td>
+
+                        <!-- Due Date -->
+                        <td>@Model.salesLists[i].DueDate.ToString("yyyy-MM-dd")</td>
+
+                        <!-- Party -->
+                        <td>@Model.salesLists[i].PartyMaster.Name</td>
+
+                        <!-- Edit Button -->
+                        <td class="text-center">
+                            <form method="post" action="/Sale/EditSale">
+                                <input type="hidden" name="id" value="@Model.salesLists[i].Id" />
+                                <button type="submit" class="btn btn-sm btn-primary w-100">
+                                    <i class="bi bi-pencil-square me-1"></i> Edit
+                                </button>
+                            </form>
+                        </td>
+
+                        <!-- Delete Button -->
+                        <td class="text-center">
+                            <form method="post" action="/Sale/DeleteSale">
+                                <input type="hidden" name="id" value="@Model.salesLists[i].Id" />
+                                <button type="submit" class="btn btn-sm btn-danger w-100">
+                                    <i class="bi bi-trash me-1"></i> Delete
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                }
             }
-        }
-    </tbody>
-</table>
+        </tbody>
+    </table>
+</div>
