@@ -1,45 +1,80 @@
 ﻿@model ALLINONEPROJECTWITHOUTJS.DTOs.PurchaseViewModel
 
-<table class="table">
-    <thead>
-    <th>Item Name</th>
-    <th>Qty</th>
-    <th>Rate</th>
-    <th>Amount</th>
-    <th>Actions</th>
-    </thead>
-    <tbody>
-        @if (Model != null)
-        {
-            @for (int i = 0; i < (Model.purchaseMaster.purchaseDetails?.Count ?? 0); i++)
+<div class="table-responsive">
+
+    <table class="table table-bordered table-hover align-middle">
+        <thead class="table-light text-center">
+            <tr>
+                <th>Item Name</th>
+                <th>Qty</th>
+                <th>Rate</th>
+                <th>Amount</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null)
             {
-                <tr>
-                    <td>
-                        <select name="purchaseMaster.purchaseDetails[@i].ItemId" onchange="this.form.submit()">
-                            <option value="0">-- Select Item --</option>
-                            @foreach (var item in Model.itemMasters)
-                            {
-                                @* <option value="@item.Id" @(Model.purchaseMaster.purchaseDetails[i].ItemId == item.Id ? "selected" : "")>@item.Name</option> *@
-                                @if (Model.purchaseMaster.purchaseDetails[i].ItemId == item.Id)
+                @for (int i = 0; i < (Model.purchaseMaster.purchaseDetails?.Count ?? 0); i++)
+                {
+                    <tr>
+                        <!-- Item Name Dropdown -->
+                        <td>
+                            <select class="form-select" name="purchaseMaster.purchaseDetails[@i].ItemId" onchange="this.form.submit()">
+                                <option value="0">-- Select Item --</option>
+                                @foreach (var item in Model.itemMasters)
                                 {
-                                    <option value="@item.Id" selected>@item.Name</option>
+                                    if (Model.purchaseMaster.purchaseDetails[i].ItemId == item.Id)
+                                    {
+                                        <option value="@item.Id" selected>@item.Name</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@item.Id">@item.Name</option>
+                                    }
                                 }
-                                else
-                                {
-                                    <option value="@item.Id">@item.Name</option>
-                                }
-                            }
-                        </select>
-                    </td>
-                    <td><input type="number" oninput="this.form.submit()" name="purchaseMaster.purchaseDetails[@i].Qty" value="@Model.purchaseMaster.purchaseDetails[i].Qty" /></td>
-                    <td><input type="number" readonly name="purchaseMaster.purchaseDetails[@i].Rate" value="@Model.purchaseMaster.purchaseDetails[i].Rate" /></td>
-                    <td><input type="number" readonly name="purchaseMaster.purchaseDetails[@i].Amount" value="@Model.purchaseMaster.purchaseDetails[i].Amount" /></td>
-                    <td>
-                        <button type="submit" formaction="/Purchase/AddNewRow">Add New Row</button>
-                        <button type="submit" formaction="/Purchase/DeleteRow">Delete Row</button>
-                    </td>
-                </tr>
+                            </select>
+                        </td>
+
+                        <!-- Quantity -->
+                        <td>
+                            <input type="number" class="form-control text-center" name="purchaseMaster.purchaseDetails[@i].Qty" oninput="this.form.submit()" value="@Model.purchaseMaster.purchaseDetails[i].Qty" />
+                        </td>
+
+                        <!-- Rate -->
+                        <td>
+                            <input type="number" class="form-control text-center" readonly name="purchaseMaster.purchaseDetails[@i].Rate" value="@Model.purchaseMaster.purchaseDetails[i].Rate" />
+                        </td>
+
+                        <!-- Amount -->
+                        <td>
+                            <input type="number" class="form-control text-center" readonly name="purchaseMaster.purchaseDetails[@i].Amount" value="@Model.purchaseMaster.purchaseDetails[i].Amount" />
+                        </td>
+
+                        <!-- Actions -->
+                        <td class="text-center">
+                            <div class="btn-group" role="group">
+                                <button type="submit" formaction="/Purchase/AddNewRow" class="btn btn-sm btn-success">
+                                    <i class="bi bi-plus-circle me-1"></i> Add
+                                </button>
+                                <button type="submit" formaction="/Purchase/DeleteRow" class="btn btn-sm btn-danger">
+                                    <i class="bi bi-trash me-1"></i> Delete
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                }
             }
-        }
-    </tbody>
-</table>
+        </tbody>
+    </table>
+</div>
+
+<style>
+    .table input, .table select {
+        min-width: 80px;
+    }
+
+    .btn i {
+        font-size: 1rem;
+    }
+</style>

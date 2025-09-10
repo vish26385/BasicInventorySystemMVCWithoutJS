@@ -1,42 +1,62 @@
 ﻿@model ALLINONEPROJECTWITHOUTJS.DTOs.PurchaseViewModel
 
-<table class="table">
-    <thead>
-    <th>Code</th>
-    <th>Date</th>
-    <th>Qty</th>
-    <th>Amount</th>   
-    <th>Party</th>
-    <th>Actions</th>
-    <th></th>
-    </thead>
-    <tbody>
-        @if (Model != null)
-        {
-            @for (int i = 0; i < (Model.purchaseLists.Count); i++)
-            {
-                var totalQty = Model.purchaseLists[i].purchaseDetails?.Sum(d => d.Qty) ?? 0;
-                var totalAmount = Model.purchaseLists[i].purchaseDetails?.Sum(d => d.Qty * d.ItemMaster.Price) ?? 0;
+<div class="card shadow-sm mb-4">
+    <div class="card-body">
+
+        <table class="table table-bordered table-hover align-middle text-center">
+            <thead class="table-light">
                 <tr>
-                    <td><input type="number" readonly value="@Model.purchaseLists[i].Id" /></td>
-                    <td><input type="text" readonly value="@Model.purchaseLists[i].PurchaseDate.ToString("yyyy-MM-dd")" /></td>
-                    <td><input type="text" readonly value="@totalQty" /></td>
-                    <td><input type="text" readonly value="@totalAmount" /></td>
-                    <td><input type="text" readonly value="@Model.purchaseLists[i].PartyMaster.Name" /></td>
-                    <td>
-                        <form method="post" action="/Purchase/EditPurchase">
-                            <input type="hidden" name="id" readonly value="@Model.purchaseLists[i].Id" />
-                            <button type="submit" style="width:100%;">Edit</button>
-                        </form>
-                    </td>
-                    <td>
-                        <form method="post" action="/Purchase/DeletePurchase">
-                            <input type="hidden" name="id" readonly value="@Model.purchaseLists[i].Id" />
-                            <button type="submit">Delete</button>
-                        </form>
-                    </td>
+                    <th>Code</th>
+                    <th>Date</th>
+                    <th>Qty</th>
+                    <th>Amount</th>
+                    <th>Party</th>
+                    <th colspan="2">Actions</th>
                 </tr>
-            }
-        }
-    </tbody>
-</table>
+            </thead>
+            <tbody>
+                @if (Model != null)
+                {
+                    @for (int i = 0; i < (Model.purchaseLists.Count); i++)
+                    {
+                        var totalQty = Model.purchaseLists[i].purchaseDetails?.Sum(d => d.Qty) ?? 0;
+                        var totalAmount = Model.purchaseLists[i].purchaseDetails?.Sum(d => d.Qty * d.ItemMaster.Price) ?? 0;
+                        <tr>
+                            <td class="text-center">@Model.purchaseLists[i].Id</td>
+                            <td class="text-center">@Model.purchaseLists[i].PurchaseDate.ToString("yyyy-MM-dd")</td>
+                            <td class="text-center">@totalQty</td>
+                            <td class="text-center">@totalAmount</td>
+                            <td class="text-center">@Model.purchaseLists[i].PartyMaster.Name</td>
+                            <td class="text-center">
+                                <form method="post" action="/Purchase/EditPurchase">
+                                    <input type="hidden" name="id" value="@Model.purchaseLists[i].Id" />
+                                    <button type="submit" class="btn btn-sm btn-primary w-100">
+                                        <i class="bi bi-pencil-square"></i> Edit
+                                    </button>
+                                </form>
+                            </td>
+                            <td class="text-center">
+                                <form method="post" action="/Purchase/DeletePurchase">
+                                    <input type="hidden" name="id" value="@Model.purchaseLists[i].Id" />
+                                    <button type="submit" class="btn btn-sm btn-danger w-100">
+                                        <i class="bi bi-trash"></i> Delete
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<style>
+    .table th, .table td {
+        vertical-align: middle;
+    }
+
+    .btn i {
+        font-size: 1rem;
+    }
+</style>

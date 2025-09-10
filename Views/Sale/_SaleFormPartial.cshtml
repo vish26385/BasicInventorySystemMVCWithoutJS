@@ -1,81 +1,91 @@
 ﻿@model ALLINONEPROJECTWITHOUTJS.DTOs.SaleViewModel
 
-<div class="card border-0 shadow-sm rounded-4 mb-4">
-    <div class="card-body">
-        <div class="row g-3">
+<div class="card shadow-sm mb-4 p-3">
+    <div class="d-flex align-items-end gap-3 flex-wrap">
 
-            <!-- Hidden CalcSource -->
-            <input type="hidden" id="CalcSource" name="salesMaster.CalcSource" value="" />
+        <!-- Hidden CalcSource -->
+        <input type="hidden" id="CalcSource" name="salesMaster.CalcSource" value="" />
 
-            <!-- Sale Code -->
-            <div class="col-md-1">
-                <label class="form-label fw-semibold">Code</label>
-                <input type="number" class="form-control" readonly name="salesMaster.Id" value="@Model.salesMaster.Id" />
-            </div>
+        <!-- Sale Code -->
+        <div class="col-md-1">
+            <label class="form-label fw-semibold">Code</label>
+            <input type="number" class="form-control" readonly name="salesMaster.Id" value="@Model.salesMaster.Id" />
+        </div>
 
-            <!-- Sale Date -->
-            <div class="col-md-2">
-                <label class="form-label fw-semibold">Date</label>
-                <input autofocus type="date" class="form-control" name="salesMaster.SaleDate"
-                       value="@Model.salesMaster.SaleDate.ToString("yyyy-MM-dd")"
-                       onchange="document.getElementById('CalcSource').value='SaleDate'; this.form.submit();" />
-            </div>
+        <!-- Sale Date -->
+        <div class="col-md-2">
+            <label class="form-label fw-semibold">Date</label>
+            <input autofocus type="date" class="form-control" name="salesMaster.SaleDate"
+                   value="@Model.salesMaster.SaleDate.ToString("yyyy-MM-dd")"
+                   onchange="document.getElementById('CalcSource').value='SaleDate'; this.form.submit();" />
+        </div>
 
-            <!-- Due Days -->
-            <div class="col-md-2">
-                <label class="form-label fw-semibold">Due Days</label>
-                <input type="number" class="form-control" name="salesMaster.DueDays" value="@Model.salesMaster.DueDays"
-                       oninput="document.getElementById('CalcSource').value='DueDays'; this.form.submit();" />
-            </div>
+        <!-- Due Days -->
+        <div class="col-md-2">
+            <label class="form-label fw-semibold">Due Days</label>
+            <input type="number" class="form-control" name="salesMaster.DueDays" value="@Model.salesMaster.DueDays"
+                   oninput="document.getElementById('CalcSource').value='DueDays'; this.form.submit();" />
+        </div>
 
-            <!-- Due Date -->
-            <div class="col-md-2">
-                <label class="form-label fw-semibold">Due Date</label>
-                <input type="date" class="form-control" name="salesMaster.DueDate"
-                       value="@Model.salesMaster.DueDate.ToString("yyyy-MM-dd")"
-                       onchange="document.getElementById('CalcSource').value='DueDate'; this.form.submit();" />
-            </div>
+        <!-- Due Date -->
+        <div class="col-md-2">
+            <label class="form-label fw-semibold">Due Date</label>
+            <input type="date" class="form-control" name="salesMaster.DueDate"
+                   value="@Model.salesMaster.DueDate.ToString("yyyy-MM-dd")"
+                   onchange="document.getElementById('CalcSource').value='DueDate'; this.form.submit();" />
+        </div>
 
-            <!-- Party -->
-            <div class="col-md-3">
-                <label class="form-label fw-semibold">Party</label>
-                <select class="form-select" name="salesMaster.PartyId">
-                    <option value="0">-- Select Party --</option>
-                    @foreach (var item in Model.partyMasters)
-                    {
-                        @* <option value=@item.Id selected="@(Model.salesMaster?.PartyId == @item.Id ? "selected" : null)">
+        <!-- Party -->
+        <div class="col-md-3">
+            <label class="form-label fw-semibold">Party</label>
+            <select class="form-select" name="salesMaster.PartyId">
+                <option value="0">-- Select Party --</option>
+                @foreach (var item in Model.partyMasters)
+                {
+                    @* <option value=@item.Id selected="@(Model.salesMaster?.PartyId == @item.Id ? "selected" : null)">
                             @item.Name
                         </option> *@
-                        @if (Model.salesMaster?.PartyId == item.Id)
-                        {
-                            <option value="@item.Id" selected>@item.Name</option>
-                        }
-                        else
-                        {
-                            <option value="@item.Id">@item.Name</option>
-                        }
+                    @if (Model.salesMaster?.PartyId == item.Id)
+                    {
+                        <option value="@item.Id" selected>@item.Name</option>
                     }
-                </select>
-            </div>
-
-            <!-- Submit Button -->
-            <div class="col-md-1 d-flex align-items-end">
-                @if (Model != null && Model.salesMaster.Id > 0)
-                {
-                    <button type="submit" formaction="/Sale/UpdateSale" class="btn btn-primary w-100 d-flex align-items-center justify-content-center gap-1">
-                        <i class="bi bi-arrow-repeat"></i>
-                        <span>Update</span>
-                    </button>
+                    else
+                    {
+                        <option value="@item.Id">@item.Name</option>
+                    }
                 }
-                else
-                {
-                    <button type="submit" formaction="/Sale/SaveSale" class="btn btn-success w-100 d-flex align-items-center justify-content-center gap-1">
-                        <i class="bi bi-save"></i>
-                        <span>Save</span>
-                    </button>
-                }
-            </div>
-
+            </select>
         </div>
+
+        <!-- Submit Button -->
+        <div class="col-md-1 d-flex align-items-end">
+            @if (Model != null && Model.salesMaster.Id > 0)
+            {
+                <button type="submit" formaction="/Sale/UpdateSale" class="btn btn-primary w-100 d-flex align-items-center justify-content-center gap-1">
+                    <i class="bi bi-arrow-repeat"></i>
+                    <span>Update</span>
+                </button>
+            }
+            else
+            {
+                <button type="submit" formaction="/Sale/SaveSale" class="btn btn-success w-100 d-flex align-items-center justify-content-center gap-1">
+                    <i class="bi bi-save"></i>
+                    <span>Save</span>
+                </button>
+            }
+        </div>
+
     </div>
 </div>
+
+
+<style>
+    .form-label {
+        font-weight: 500;
+        font-size: 0.9rem;
+    }
+
+    .card {
+        border-radius: 12px;
+    }
+</style>
